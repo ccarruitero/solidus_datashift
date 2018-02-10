@@ -18,6 +18,7 @@ require File.expand_path('../dummy/config/environment.rb', __FILE__)
 require 'rspec/rails'
 require 'database_cleaner'
 require 'ffaker'
+require 'pry'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -27,15 +28,9 @@ Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
 require 'spree/testing_support/authorization_helpers'
 require 'spree/testing_support/capybara_ext'
 require 'spree/testing_support/controller_requests'
-require 'spree/testing_support/factories'
 require 'spree/testing_support/url_helpers'
 
-# Requires factories defined in lib/solidus_datashift/factories.rb
-require 'solidus_datashift/factories'
-
 RSpec.configure do |config|
-  config.include FactoryBot::Syntax::Methods
-
   # Infer an example group's spec type from the file location.
   config.infer_spec_type_from_file_location!
 
@@ -46,6 +41,7 @@ RSpec.configure do |config|
   # visit spree.admin_path
   # current_path.should eql(spree.products_path)
   config.include Spree::TestingSupport::UrlHelpers
+  config.include FileHelpers
 
   # == Mock Framework
   #
