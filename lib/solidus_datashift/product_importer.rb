@@ -1,10 +1,9 @@
+# frozen_string_literal: true
+
 require 'datashift'
 
 module SolidusDatashift
   class ProductImporter
-    # attr_accessor :file_name
-    # attr_accessor :datashift_loader
-
     def initialize(file_name)
       @file_name = file_name
       @datashift_loader = DataShift::Loader::Factory.get_loader(file_name)
