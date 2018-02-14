@@ -31,6 +31,7 @@ require 'spree/testing_support/authorization_helpers'
 require 'spree/testing_support/capybara_ext'
 require 'spree/testing_support/controller_requests'
 require 'spree/testing_support/url_helpers'
+require 'spree/testing_support/factories'
 
 RSpec.configure do |config|
   # Infer an example group's spec type from the file location.
@@ -42,6 +43,7 @@ RSpec.configure do |config|
   #
   # visit spree.admin_path
   # current_path.should eql(spree.products_path)
+  config.include FactoryBot::Syntax::Methods
   config.include Spree::TestingSupport::UrlHelpers
   config.include FileHelpers
 
