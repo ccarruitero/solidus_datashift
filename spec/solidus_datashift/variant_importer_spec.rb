@@ -8,7 +8,8 @@ describe SolidusDataShift::VariantImporter do
     let(:product) { create(:product) }
 
     before do
-      master_sku = CSV.read(fixture_file('spree_variants.csv'))[1][0]
+      @variant_data = CSV.read(fixture_file('spree_variants.csv'))[1]
+      master_sku = @variant_data[0]
       product.master.update(sku: master_sku)
     end
 
@@ -18,6 +19,12 @@ describe SolidusDataShift::VariantImporter do
 
     it 'should associate variant to product' do
       expect { importer.run }.to change { product.variants.count }.by(2)
+    end
+
+    it 'should store data price correctly' do
+      importer.run
+      variant = product.variants.find_by(sku: @variant_data[1])
+      expect(variant.price.to_f).to eq(@variant_data[2].to_f)
     end
   end
 end

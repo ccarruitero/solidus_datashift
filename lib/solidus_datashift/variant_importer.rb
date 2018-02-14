@@ -5,7 +5,7 @@ require_relative 'variant_populator'
 module SolidusDataShift
   class VariantImporter < Importer
     def inclusion_columns
-      %w[product_sku]
+      %w[product_sku price]
     end
 
     def importer_model
