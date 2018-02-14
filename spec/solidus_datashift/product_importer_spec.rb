@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe SolidusDatashift::ProductImporter do
+describe SolidusDataShift::ProductImporter do
   context 'with csv file' do
     let(:importer) { described_class.new(fixture_file('spree_products.csv')) }
 
@@ -11,7 +11,7 @@ describe SolidusDatashift::ProductImporter do
     end
   end
 
-  context 'with xlc file' do
+  context 'with xls file' do
     let(:importer) { described_class.new(fixture_file('spree_products.xls')) }
 
     it 'should successfull upload products' do
