@@ -45,7 +45,12 @@ describe SolidusDataShift::Importer::Product do
       xit 'has correct variants' do
       end
 
-      xit 'has correct count_on_hand' do
+      it 'has correct count_on_hand' do
+        expect(Spree::StockLocation.count).to eq(3)
+        first_location = Spree::StockLocation.first
+        first_stock_item = @product.stock_items.first
+        expect(first_stock_item.stock_location).to eq(first_location)
+        expect(first_stock_item.count_on_hand).to eq(12)
       end
     end
   end
