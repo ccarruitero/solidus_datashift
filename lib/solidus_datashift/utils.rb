@@ -11,12 +11,13 @@ module SolidusDataShift
     #   In this case we attempt to find a stock location by name and populate
     #   with the asociated value
     def setup_stock(record, data)
-      inventory = data.split('|')
+      inventory = data.to_s.split('|')
 
       if inventory.size > 1
         inventory.each do |stock_hash|
           name, stock = stock_hash.split(':')
-          stock_location = Spree::StockLocation.find_by('name LIKE ?', name)
+          stock_location = Spree::StockLocation.where('name LIKE ?', name)
+            .first_or_create(name: name)
           populate_stock(stock_location, record, stock)
         end
       else
@@ -24,6 +25,15 @@ module SolidusDataShift
           populate_stock(stock_location, record, inventory.first)
         end
       end
+    end
+
+    def populate_stock(stock_location, variant, count)
+      variant.save unless variant.persisted?
+      stock_item = Spree::StockItem.find_or_create_by(
+        stock_location_id: stock_location.id,
+        variant_id: variant.id
+      )
+      stock_item.set_count_on_hand(count)
     end
   end
 end

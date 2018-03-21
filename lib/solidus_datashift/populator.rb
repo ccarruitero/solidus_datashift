@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative './utils'
+require 'solidus_datashift/utils'
 
 module SolidusDataShift
   class Populator < DataShift::Populator

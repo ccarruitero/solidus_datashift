@@ -23,12 +23,5 @@ module SolidusDataShift
       master = Spree::Variant.find_by(sku: data)
       record.product = master.product
     end
-
-    def populate_stock(stock_location, variant, count)
-      variant.save unless variant.persisted?
-      stock_item = Spree::StockItem.find_by(stock_location_id: stock_location.id,
-                                            variant_id: variant.id)
-      stock_item.set_count_on_hand(count)
-    end
   end
 end
