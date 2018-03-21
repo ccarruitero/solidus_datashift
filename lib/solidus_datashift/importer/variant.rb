@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'variant_populator'
+require 'solidus_datashift/importer'
+require 'solidus_datashift/populator/variant'
 
 module SolidusDataShift
-  class VariantImporter < Importer
+  class Importer::Variant < Importer
     def inclusion_columns
       %w[product_sku price count_on_hand]
     end
@@ -13,7 +14,7 @@ module SolidusDataShift
     end
 
     def importer_populator
-      VariantPopulator
+      Populator::Variant
     end
   end
 end

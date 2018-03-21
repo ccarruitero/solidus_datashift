@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-require_relative './utils'
+require 'solidus_datashift/populator'
 
 module SolidusDataShift
-  class VariantPopulator < DataShift::Populator
-    include SolidusDataShift::Utils
-
+  class Populator::Variant < Populator
     def prepare_and_assign_method_binding(method_binding, record, data)
       prepare_data(method_binding, data)
       if method_binding.operator?('product_sku')

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe SolidusDataShift::VariantImporter do
+describe SolidusDataShift::Importer::Variant do
   context 'with csv file' do
     let(:importer) { described_class.new(fixture_file('spree_variants.csv')) }
     let(:product) { create(:product) }
