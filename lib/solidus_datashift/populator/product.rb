@@ -10,6 +10,8 @@ module SolidusDataShift
         setup_stock(record, data)
       elsif method_binding.operator?('taxons')
         setup_taxons(record, data)
+      elsif method_binding.operator?('stores')
+        setup_stores(record, data)
       else
         assign(method_binding, record)
       end
@@ -39,8 +41,27 @@ module SolidusDataShift
       end
     end
 
+    def setup_stores(record, data)
+      if record.respond_to?('stores')
+        store_names = split_data(data)
+        store_names.each do |store_name|
+          store = Spree::Store.find_or_create_by(name: store_name) do |obj|
+            obj.code = store_name
+            obj.url = "#{store_name}.example.com"
+            obj.mail_from_address = 'mail@example.com'
+          end
+
+          add_store_to_product(record, store)
+        end
+      end
+    end
+
     def add_taxon_to_product(product, taxon)
       product.taxons << taxon unless product.taxons.include?(taxon)
+    end
+
+    def add_store_to_product(product, store)
+      product.stores << store unless product.stores.include?(store)
     end
   end
 end

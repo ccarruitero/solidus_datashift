@@ -54,6 +54,10 @@ describe SolidusDataShift::Importer::Product do
         expect(first_stock_item.stock_location).to eq(first_location)
         expect(first_stock_item.count_on_hand).to eq(12)
       end
+
+      it 'allow associate stores to product' do
+        expect(@product.stores.count).to eq(1) if @product.respond_to?('stores')
+      end
     end
   end
 
