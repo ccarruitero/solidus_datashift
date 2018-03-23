@@ -163,6 +163,7 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
+    - '*.gemspec'
 
 Metrics/BlockNesting:
   Enabled: false
