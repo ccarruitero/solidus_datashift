@@ -36,7 +36,9 @@ describe SolidusDataShift::Importer::Product do
         expect(@product.shipping_category.name).to eq('small')
       end
 
-      xit 'has correct taxons' do
+      it 'has correct taxons' do
+        expect(@product.taxons.count).to eq(2)
+        expect(@product.taxons.pluck(:name)).to eq(['Paintings', 'WaterColour'])
       end
 
       xit 'has correct product properties' do

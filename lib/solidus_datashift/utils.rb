@@ -11,7 +11,7 @@ module SolidusDataShift
     #   In this case we attempt to find a stock location by name and populate
     #   with the asociated value
     def setup_stock(record, data)
-      inventory = data.to_s.split('|')
+      inventory = split_data(data)
 
       if inventory.size > 1
         inventory.each do |stock_hash|
@@ -34,6 +34,10 @@ module SolidusDataShift
         variant_id: variant.id
       )
       stock_item.set_count_on_hand(count)
+    end
+
+    def split_data(data)
+      data.to_s.split('|')
     end
   end
 end

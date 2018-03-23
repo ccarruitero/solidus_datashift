@@ -6,8 +6,8 @@ require 'solidus_datashift/populator/product'
 module SolidusDataShift
   class Importer::Product < Importer
     def inclusion_columns
-      %w[ cost_price images price shipping_category sku stock_items variant_sku
-          variant_cost_price variant_price variant_images count_on_hand]
+      %w[ cost_price images price shipping_category sku stock_items
+          count_on_hand taxons]
     end
 
     def importer_model
