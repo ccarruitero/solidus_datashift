@@ -47,7 +47,11 @@ describe SolidusDataShift::Importer::Product do
         expect(first_property.name).to eq('test_pp_001')
       end
 
-      xit 'has correct variants' do
+      it 'has correct option types' do
+        expect(@product.option_types.count).to eq(1)
+
+        option_type = @product.option_types.first
+        expect(option_type.option_values.count).to eq(3)
       end
 
       it 'has correct count_on_hand' do

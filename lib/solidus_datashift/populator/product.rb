@@ -14,6 +14,8 @@ module SolidusDataShift
         setup_taxons(record, data)
       elsif method_binding.operator?('stores')
         setup_stores(record, data)
+      elsif method_binding.operator?('option_types')
+        setup_option_types(record, data)
       else
         assign(method_binding, record)
       end
@@ -70,9 +72,28 @@ module SolidusDataShift
       end
     end
 
-    def associate_to_product(product, association_name, association_item)
+    def setup_option_types(record, data)
+      type_list = split_data(data)
+
+      type_list.each do |type_str|
+        name, values = type_str.split(':')
+        option_type = Spree::OptionType.find_or_create_by(name: name) do |obj|
+          obj.presentation = name
+        end
+
+        values.split(',').map(&:strip).each do |value|
+          option_type.option_values.find_or_create_by(name: value) do |obj|
+            obj.presentation = value
+          end
+        end
+
+        associate_to_product(record, 'option_types', option_type)
+      end
+    end
+
+    def associate_to_product(product, association_name, item)
       association = product.send(association_name)
-      association << association_item unless association.include?(association_item)
+      association << item unless association.include?(item)
     end
   end
 end
