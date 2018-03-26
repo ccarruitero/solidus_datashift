@@ -41,7 +41,10 @@ describe SolidusDataShift::Importer::Product do
         expect(@product.taxons.pluck(:name)).to eq(['Paintings', 'WaterColour'])
       end
 
-      xit 'has correct product properties' do
+      it 'has correct product properties' do
+        expect(@product.product_properties.count).to eq(1)
+        first_property = @product.product_properties.first.property
+        expect(first_property.name).to eq('test_pp_001')
       end
 
       xit 'has correct variants' do

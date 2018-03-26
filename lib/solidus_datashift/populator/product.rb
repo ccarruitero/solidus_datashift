@@ -8,6 +8,8 @@ module SolidusDataShift
       prepare_data(method_binding, data)
       if method_binding.operator?('count_on_hand')
         setup_stock(record, data)
+      elsif method_binding.operator?('product_properties')
+        setup_product_properties(record, data)
       elsif method_binding.operator?('taxons')
         setup_taxons(record, data)
       elsif method_binding.operator?('stores')
@@ -29,13 +31,13 @@ module SolidusDataShift
         taxon_names = taxon_str.split(/\s*>\s*/)
         taxonomy = Spree::Taxonomy.find_or_create_by(name: taxon_names.shift)
         parent = taxonomy.root
-        add_taxon_to_product(record, parent)
+        associate_to_product(record, 'taxons', parent)
 
         taxon_names.each do |taxon_name|
           taxon = Spree::Taxon.find_or_create_by(name: taxon_name,
                                                  taxonomy: taxonomy,
                                                  parent: parent)
-          add_taxon_to_product(record, taxon)
+          associate_to_product(record, 'taxons', taxon)
           parent = taxon
         end
       end
@@ -51,17 +53,26 @@ module SolidusDataShift
             obj.mail_from_address = 'mail@example.com'
           end
 
-          add_store_to_product(record, store)
+          associate_to_product(record, 'stores', store)
         end
       end
     end
 
-    def add_taxon_to_product(product, taxon)
-      product.taxons << taxon unless product.taxons.include?(taxon)
+    def setup_product_properties(record, data)
+      properties_names = split_data(data)
+
+      properties_names.each do |property_name|
+        property = Spree::Property.find_or_create_by(name: property_name) do |obj|
+          obj.presentation = property_name
+        end
+
+        associate_to_product(record, 'properties', property)
+      end
     end
 
-    def add_store_to_product(product, store)
-      product.stores << store unless product.stores.include?(store)
+    def associate_to_product(product, association_name, association_item)
+      association = product.send(association_name)
+      association << association_item unless association.include?(association_item)
     end
   end
 end
