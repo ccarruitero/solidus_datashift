@@ -16,6 +16,8 @@ module SolidusDataShift
         setup_stores(record, data)
       elsif method_binding.operator?('option_types')
         setup_option_types(record, data)
+      elsif method_binding.operator?('images')
+        setup_images(record.master, data)
       else
         assign(method_binding, record)
       end

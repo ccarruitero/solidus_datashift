@@ -65,6 +65,10 @@ describe SolidusDataShift::Importer::Product do
       it 'allow associate stores to product' do
         expect(@product.stores.count).to eq(1) if @product.respond_to?('stores')
       end
+
+      it 'allow image' do
+        expect(@product.images.count).to eq(1)
+      end
     end
   end
 

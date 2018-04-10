@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'mechanize'
+
 module SolidusDataShift
   module Utils
     # for count_on_hand we expect two kind of values:
@@ -23,6 +25,25 @@ module SolidusDataShift
       else
         Spree::StockLocation.all.each do |stock_location|
           populate_stock(stock_location, record, inventory.first)
+        end
+      end
+    end
+
+    def setup_images(record, data)
+      images = split_data(data)
+      images.each do |image_url|
+        agent = Mechanize.new
+        image_file = agent.get(image_url)
+        name, extension = image_file.filename.split('.')
+        temp_file = Tempfile.new([name, ".#{extension}"], encoding: 'ascii-8bit')
+        begin
+          temp_file.write image_file.body_io.string
+          temp_file.rewind
+          image = Spree::Image.create(attachment: temp_file)
+          record.images << image
+        ensure
+          temp_file.close
+          temp_file.unlink
         end
       end
     end

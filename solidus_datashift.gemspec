@@ -18,6 +18,7 @@ Gem::Specification.new do |s|
   s.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
 
   s.add_dependency 'datashift', '~> 0.40'
+  s.add_dependency 'mechanize'
   s.add_dependency 'solidus_core'
   s.add_dependency 'solidus_support'
 

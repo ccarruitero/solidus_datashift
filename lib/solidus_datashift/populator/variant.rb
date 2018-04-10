@@ -10,6 +10,8 @@ module SolidusDataShift
         setup_product(method_binding, record, data)
       elsif method_binding.operator?('count_on_hand')
         setup_stock(record, data)
+      elsif method_binding.operator?('images')
+        setup_images(record, data)
       else
         assign(method_binding, record)
       end
