@@ -1,5 +1,7 @@
 SolidusDatashift
 ================
+[![Gem Version][rubygems-image]][rubygems-url]
+[![Build Status][travis-image]][travis-url]
 
 Allow import data to your solidus store
 
@@ -37,3 +39,8 @@ rake -T
 ```
 
 Copyright (c) 2018 [César Carruitero](https://github.com/ccarruitero), released under MIT License
+
+[rubygems-image]: https://badge.fury.io/rb/solidus_datashift.svg
+[rubygems-url]: https://badge.fury.io/rb/solidus_datashift
+[travis-image]: https://travis-ci.org/ccarruitero/solidus_datashift.svg?branch=master
+[travis-url]: https://travis-ci.org/ccarruitero/solidus_datashift
