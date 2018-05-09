@@ -62,6 +62,10 @@ describe SolidusDataShift::Importer::Product do
         expect(first_stock_item.count_on_hand).to eq(12)
       end
 
+      it 'has correct available_on' do
+        expect(@product.available_on).to eq(DateTime.parse('2011-02-14'))
+      end
+
       it 'allow associate stores to product' do
         expect(@product.stores.count).to eq(1) if @product.respond_to?('stores')
       end
