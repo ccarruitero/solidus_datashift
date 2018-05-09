@@ -37,7 +37,7 @@ module SolidusDataShift
         name, extension = image_file.filename.split('.')
         temp_file = Tempfile.new([name, ".#{extension}"], encoding: 'ascii-8bit')
         begin
-          temp_file.write image_file.body_io.string
+          temp_file.write image_file.body
           temp_file.rewind
           image = Spree::Image.create(attachment: temp_file)
           record.images << image
