@@ -9,5 +9,4 @@ gem 'solidus', github: 'solidusio/solidus', branch: branch
 
 gemspec
 
-gem 'datashift', github: 'ccarruitero/datashift', branch: 'fix_delegator_2.4'
 gem 'solidus_multi_domain', github: 'solidusio/solidus_multi_domain'
