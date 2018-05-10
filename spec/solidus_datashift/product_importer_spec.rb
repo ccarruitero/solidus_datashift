@@ -63,7 +63,7 @@ describe SolidusDataShift::Importer::Product do
       end
 
       it 'has correct available_on' do
-        expect(@product.available_on).to eq(DateTime.parse('2011-02-14'))
+        expect(@product.available_on.to_date).to eq(Date.parse('2011-02-14'))
       end
 
       it 'allow associate stores to product' do
