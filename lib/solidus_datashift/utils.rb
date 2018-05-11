@@ -18,7 +18,10 @@ module SolidusDataShift
       if inventory.size > 1
         inventory.each do |stock_hash|
           name, stock = stock_hash.split(':')
-          stock_location = Spree::StockLocation.where('name LIKE ?', name)
+          adapter = ActiveRecord::Base.configurations[Rails.env]['adapter']
+          query_method = adapter == 'postgresql' ? 'ILIKE' : 'LIKE'
+          query = "name #{query_method} ?"
+          stock_location = Spree::StockLocation.where(query, name)
             .first_or_create(name: name)
           populate_stock(stock_location, record, stock)
         end
