@@ -1,0 +1,3 @@
+SKU,Name,Description,Available On,     Price,cost_price,      ShippingCategory,product_properties,Taxons,OptionTypes,count_on_hand,stores
+DEMO_001,Almohadón, some great description,2011-02-14,399.99,320,small,test_pp_001,Paintings|WaterColour,"mime_type:jpeg,PDF,PNG",foo:12|bar:6|baz:7,default
+DEMO_002,Cañón, some great description,2011-02-14,399.99,320,small,test_pp_001,Paintings|WaterColour,"mime_type:jpeg,PDF,PNG",foo:12|bar:6|baz:7,default

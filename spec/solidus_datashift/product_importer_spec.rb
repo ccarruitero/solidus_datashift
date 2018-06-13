@@ -77,6 +77,24 @@ describe SolidusDataShift::Importer::Product do
     end
   end
 
+  context 'with spanish characters' do
+    let(:importer) { described_class.new(fixture_file('products_spanish.csv')) }
+    let(:subject) { importer.run }
+
+    it 'should successfull upload products' do
+      expect { subject }.to change { Spree::Product.count }.by(2)
+    end
+
+    it 'save name correctly' do
+      subject
+      product0 = Spree::Product.first
+      expect(product0.name).to eq('Almohadón')
+
+      product1 = Spree::Product.last
+      expect(product1.name).to eq('Cañón')
+    end
+  end
+
   context 'with xls file' do
     let(:importer) { described_class.new(fixture_file('spree_products.xls')) }
 
