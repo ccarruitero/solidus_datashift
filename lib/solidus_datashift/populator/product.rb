@@ -63,14 +63,20 @@ module SolidusDataShift
     end
 
     def setup_product_properties(record, data)
-      properties_names = split_data(data)
+      properties_list = split_data(data)
 
-      properties_names.each do |property_name|
-        property = Spree::Property.find_or_create_by(name: property_name) do |obj|
-          obj.presentation = property_name
+      properties_list.each do |property_pair|
+        name, value = property_pair.split(':')
+        property = Spree::Property.find_or_create_by(name: name) do |obj|
+          obj.presentation = name
         end
 
-        associate_to_product(record, 'properties', property)
+        product_property = Spree::ProductProperty.find_or_create_by(value: value) do |obj|
+          obj.property = property
+          obj.value = value
+        end
+
+        associate_to_product(record, 'product_properties', product_property)
       end
     end
 

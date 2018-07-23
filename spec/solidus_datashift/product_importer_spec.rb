@@ -44,8 +44,9 @@ describe SolidusDataShift::Importer::Product do
 
       it 'has correct product properties' do
         expect(@product.product_properties.count).to eq(1)
-        first_property = @product.product_properties.first.property
-        expect(first_property.name).to eq('test_pp_001')
+        product_property = @product.product_properties.first
+        expect(product_property.property.name).to eq('test')
+        expect(product_property.value).to eq('pp_001')
       end
 
       it 'has correct option types' do
