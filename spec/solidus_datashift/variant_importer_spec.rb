@@ -74,5 +74,12 @@ describe SolidusDataShift::Importer::Variant do
         end
       end
     end
+
+    it 'allow attach image' do
+      importer.run
+      variant = product.variants.find_by(sku: @variant_data[1])
+      expect(variant.images.count).to eq(1)
+      expect(product.images.count).to eq(0)
+    end
   end
 end
