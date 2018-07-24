@@ -4,9 +4,11 @@ require 'solidus_datashift/populator'
 
 module SolidusDataShift
   class Populator::Product < Populator
-    def prepare_and_assign_method_binding(method_binding, record, data)
+    def prepare_and_assign_method_binding(method_binding, record, data, opts)
       prepare_data(method_binding, data)
-      if method_binding.operator?('count_on_hand')
+      if method_binding.operator?('sku')
+        setup_product(method_binding, record, data, opts)
+      elsif method_binding.operator?('count_on_hand')
         setup_stock(record, data)
       elsif method_binding.operator?('product_properties')
         setup_product_properties(record, data)
@@ -102,6 +104,17 @@ module SolidusDataShift
     def associate_to_product(product, association_name, item)
       association = product.send(association_name)
       association << item unless association.include?(item)
+    end
+
+    def setup_product(method_binding, record, data, opts)
+      variant = Spree::Variant.find_by(sku: data)
+
+      if variant
+        context = opts[:doc_context]
+        context.reset(variant.product)
+      else
+        assign(method_binding, record)
+      end
     end
   end
 end

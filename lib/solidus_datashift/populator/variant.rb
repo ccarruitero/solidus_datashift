@@ -4,15 +4,6 @@ require 'solidus_datashift/populator'
 
 module SolidusDataShift
   class Populator::Variant < Populator
-    def prepare_and_assign(context, record, data)
-      prepare_and_assign_method_binding(
-        context.method_binding,
-        record,
-        data,
-        doc_context: context.doc_context
-      )
-    end
-
     def prepare_and_assign_method_binding(method_binding, record, data, opts)
       prepare_data(method_binding, data)
       if method_binding.operator?('product_sku')

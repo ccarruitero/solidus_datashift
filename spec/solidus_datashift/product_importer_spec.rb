@@ -96,6 +96,21 @@ describe SolidusDataShift::Importer::Product do
     end
   end
 
+  context 'with an exiting product' do
+    let(:importer) { described_class.new(fixture_file('spree_products.csv')) }
+    let(:update) { described_class.new(fixture_file('update_product.csv')) }
+
+    before do
+      importer.run
+      update.run
+    end
+
+    it 'success update product' do
+      product = Spree::Product.first
+      expect(product.name).to eq('Alternative name')
+    end
+  end
+
   context 'with xls file' do
     let(:importer) { described_class.new(fixture_file('spree_products.xls')) }
 
