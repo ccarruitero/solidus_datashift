@@ -81,5 +81,22 @@ describe SolidusDataShift::Importer::Variant do
       expect(variant.images.count).to eq(1)
       expect(product.images.count).to eq(0)
     end
+
+    context 'when update' do
+      let(:update_importer) {
+        described_class.new(fixture_file('spree_variants_update.csv'))
+      }
+
+      before do
+        importer.run
+      end
+
+      it 'update variant attributes' do
+        update_importer.run
+        variant = product.variants.find_by(sku: @variant_data[1])
+        stock_item = variant.stock_items.first
+        expect(stock_item.count_on_hand).to eq(13)
+      end
+    end
   end
 end
