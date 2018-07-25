@@ -44,6 +44,12 @@ describe SolidusDataShift::Importer::Variant do
       expect(@variant.option_values.first.name).to eq('white')
     end
 
+    it 'allow variant properties' do
+      property_rule_values = @variant.product.variant_property_rule_values
+      expect(property_rule_values.count).to eq(2)
+      expect(property_rule_values.first.value).to eq('plastic')
+    end
+
     context 'when update' do
       let(:update_importer) {
         described_class.new(fixture_file('spree_variants_update.csv'))

@@ -1,3 +1,3 @@
-product_sku,sku,Price,count_on_hand,images,options
-FPT02390,FPT02919,430,3,http://rubyonrails.org/images/imagine.png,color:white
-FPT02390,FPT05979,450,5,,color:black
+product_sku,sku,Price,count_on_hand,images,options,variant_properties
+FPT02390,FPT02919,430,3,http://rubyonrails.org/images/imagine.png,color:white,color:white>material:plastic
+FPT02390,FPT05979,450,5,,color:black,color:black>material:paper
