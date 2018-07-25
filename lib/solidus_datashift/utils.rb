@@ -63,5 +63,29 @@ module SolidusDataShift
     def split_data(data)
       data.to_s.split('|')
     end
+
+    def setup_options(data, &block)
+      type_list = split_data(data)
+
+      type_list.each do |type_str|
+        name, values = type_str.split(':')
+        option_type = Spree::OptionType.find_or_create_by(name: name) do |obj|
+          obj.presentation = name
+        end
+
+        values.split(',').map(&:strip).each do |value|
+          option_type.option_values.find_or_create_by(name: value) do |obj|
+            obj.presentation = value
+          end
+        end
+
+        yield(option_type)
+      end
+    end
+
+    def associate(record, association_name, item)
+      association = record.send(association_name)
+      association << item unless association.include?(item)
+    end
   end
 end

@@ -37,13 +37,13 @@ module SolidusDataShift
         taxon_names = taxon_str.split(/\s*>\s*/)
         taxonomy = Spree::Taxonomy.find_or_create_by(name: taxon_names.shift)
         parent = taxonomy.root
-        associate_to_product(record, 'taxons', parent)
+        associate(record, 'taxons', parent)
 
         taxon_names.each do |taxon_name|
           taxon = Spree::Taxon.find_or_create_by(name: taxon_name,
                                                  taxonomy: taxonomy,
                                                  parent: parent)
-          associate_to_product(record, 'taxons', taxon)
+          associate(record, 'taxons', taxon)
           parent = taxon
         end
       end
@@ -59,7 +59,7 @@ module SolidusDataShift
             obj.mail_from_address = 'mail@example.com'
           end
 
-          associate_to_product(record, 'stores', store)
+          associate(record, 'stores', store)
         end
       end
     end
@@ -78,32 +78,14 @@ module SolidusDataShift
           obj.value = value
         end
 
-        associate_to_product(record, 'product_properties', product_property)
+        associate(record, 'product_properties', product_property)
       end
     end
 
     def setup_option_types(record, data)
-      type_list = split_data(data)
-
-      type_list.each do |type_str|
-        name, values = type_str.split(':')
-        option_type = Spree::OptionType.find_or_create_by(name: name) do |obj|
-          obj.presentation = name
-        end
-
-        values.split(',').map(&:strip).each do |value|
-          option_type.option_values.find_or_create_by(name: value) do |obj|
-            obj.presentation = value
-          end
-        end
-
-        associate_to_product(record, 'option_types', option_type)
+      setup_options(data) do |option_type|
+        associate(record, 'option_types', option_type)
       end
-    end
-
-    def associate_to_product(product, association_name, item)
-      association = product.send(association_name)
-      association << item unless association.include?(item)
     end
 
     def setup_product(method_binding, record, data, opts)
