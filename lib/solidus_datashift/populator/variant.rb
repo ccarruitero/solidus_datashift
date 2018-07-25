@@ -4,6 +4,8 @@ require 'solidus_datashift/populator'
 
 module SolidusDataShift
   class Populator::Variant < Populator
+    OPTIONS_ALIAS = %w[options option_types option_values]
+
     def prepare_and_assign_method_binding(method_binding, record, data, opts)
       prepare_data(method_binding, data)
       if method_binding.operator?('product_sku')
@@ -14,6 +16,8 @@ module SolidusDataShift
         setup_stock(record, data)
       elsif method_binding.operator?('images')
         setup_images(record, data)
+      elsif OPTIONS_ALIAS.include?(method_binding.operator)
+        setup_variant_options(record, data)
       else
         assign(method_binding, record)
       end
@@ -34,6 +38,12 @@ module SolidusDataShift
         obj.product = record.product
       end
       context.reset(new_record)
+    end
+
+    def setup_variant_options(record, data)
+      setup_options(data) do |_option_type, option_value|
+        associate(record, 'option_values', option_value)
+      end
     end
   end
 end

@@ -83,7 +83,7 @@ module SolidusDataShift
     end
 
     def setup_option_types(record, data)
-      setup_options(data) do |option_type|
+      setup_options(data) do |option_type, _option_value|
         associate(record, 'option_types', option_type)
       end
     end

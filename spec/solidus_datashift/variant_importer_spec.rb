@@ -82,6 +82,13 @@ describe SolidusDataShift::Importer::Variant do
       expect(product.images.count).to eq(0)
     end
 
+    it 'allow option values' do
+      importer.run
+      variant = product.variants.find_by(sku: @variant_data[1])
+      expect(variant.option_values.count).to eq(1)
+      expect(variant.option_values.first.name).to eq('white')
+    end
+
     context 'when update' do
       let(:update_importer) {
         described_class.new(fixture_file('spree_variants_update.csv'))

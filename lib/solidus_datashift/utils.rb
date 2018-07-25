@@ -64,7 +64,7 @@ module SolidusDataShift
       data.to_s.split('|')
     end
 
-    def setup_options(data, &block)
+    def setup_options(data)
       type_list = split_data(data)
 
       type_list.each do |type_str|
@@ -74,12 +74,12 @@ module SolidusDataShift
         end
 
         values.split(',').map(&:strip).each do |value|
-          option_type.option_values.find_or_create_by(name: value) do |obj|
+          option_values = option_type.option_values
+          option_value = option_values.find_or_create_by(name: value) do |obj|
             obj.presentation = value
           end
+          yield(option_type, option_value)
         end
-
-        yield(option_type)
       end
     end
 
