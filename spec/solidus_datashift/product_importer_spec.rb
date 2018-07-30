@@ -47,6 +47,9 @@ describe SolidusDataShift::Importer::Product do
         product_property = @product.product_properties.first
         expect(product_property.property.name).to eq('test')
         expect(product_property.value).to eq('pp_001')
+
+        other_product = Spree::Product.second
+        expect(other_product.product_properties.first.value).to eq('pp_001')
       end
 
       it 'has correct option types' do
